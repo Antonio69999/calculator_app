@@ -3,7 +3,8 @@ import { Text, StyleSheet, View, Switch } from "react-native";
 import { ThemeContext } from "../src/context/ThemeContext";
 import { StatusBar } from "expo-status-bar";
 import { Colours } from "@/src/styles/Colours";
-import Button from "@/src/components/Button";
+import Keyboard from "../src/components/Keyboard";
+// import Button from "@/src/components/Button";
 
 export default function Index() {
   const [theme, setTheme] = useState("light");
@@ -21,7 +22,7 @@ export default function Index() {
           value={theme === "light"}
           onChange={() => setTheme(theme === "light" ? "dark" : "light")}
         ></Switch>
-        
+        <Keyboard></Keyboard>
       </View>
     </ThemeContext.Provider>
   );
