@@ -1,10 +1,37 @@
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import HomeScreen from "./HomeScreen/HomeScreen";
+import { useState } from "react";
+import { Text, StyleSheet, View, Switch } from "react-native";
+import { ThemeContext } from "../src/context/ThemeContext";
+import { StatusBar } from "expo-status-bar";
+import { Colours } from "@/src/styles/Colours";
+import Button from "@/src/components/Button";
 
-export default function App() {
+export default function Index() {
+  const [theme, setTheme] = useState("light");
   return (
-    <SafeAreaProvider>
-      <HomeScreen />
-    </SafeAreaProvider>
+    <ThemeContext.Provider value={theme}>
+      <View
+        style={
+          theme === "light"
+            ? styles.container
+            : [styles.container, { backgroundColor: "#000" }]
+        }
+      >
+        <StatusBar style="auto"></StatusBar>
+        <Switch
+          value={theme === "light"}
+          onChange={() => setTheme(theme === "light" ? "dark" : "light")}
+        ></Switch>
+        
+      </View>
+    </ThemeContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colours.light,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
