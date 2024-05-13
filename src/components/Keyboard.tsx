@@ -3,7 +3,7 @@ import Button from "./Button";
 import { View, Text, StyleSheet } from "react-native";
 import { Styles } from "../styles/GlobalStyles";
 import { Colours } from "../styles/Colours";
-// import RNShake from "react-native-shake";
+import { ShakeEventExpo } from "./Shake";
 
 export default function Keyboard() {
   const [firstNumber, setFirstNumber] = React.useState("");
@@ -30,6 +30,16 @@ export default function Keyboard() {
     setResult(null);
   };
 
+  React.useEffect(() => {
+    ShakeEventExpo.addListener(() => {
+      clear();
+    });
+
+    return () => {
+      ShakeEventExpo.removeListener();
+    };
+  }, []);
+
   const getResult = () => {
     switch (operator) {
       case "+":
@@ -52,17 +62,63 @@ export default function Keyboard() {
     }
   };
 
-  //   React.useEffect(() => {
-  //     const clearShake = RNShake.addListener(clear);
-
-  //     // Cleanup function
-  //     return () => {
-  //       clearShake.remove();
-  //     };
-  //   }, []);
+  const firstNumberDisplay = () => {
+    if (result !== null) {
+      return (
+        <Text
+          style={
+            result < 99999
+              ? [Styles.screenFirstNumber, { color: Colours.result }]
+              : [
+                  Styles.screenFirstNumber,
+                  { fontSize: 50, color: Colours.result },
+                ]
+          }
+        >
+          {result?.toString()}
+        </Text>
+      );
+    }
+    if (firstNumber && firstNumber.length < 6) {
+      return <Text style={Styles.screenFirstNumber}>{firstNumber}</Text>;
+    }
+    if (firstNumber === "") {
+      return <Text style={Styles.screenFirstNumber}>{"0"}</Text>;
+    }
+    if (firstNumber.length > 5 && firstNumber.length < 8) {
+      return (
+        <Text style={[Styles.screenFirstNumber, { fontSize: 70 }]}>
+          {firstNumber}
+        </Text>
+      );
+    }
+    if (firstNumber.length > 7) {
+      return (
+        <Text style={[Styles.screenFirstNumber, { fontSize: 50 }]}>
+          {firstNumber}
+        </Text>
+      );
+    }
+  };
 
   return (
-    <>
+    <View style={Styles.viewBottom}>
+      <View
+        style={{
+          height: 120,
+          width: "90%",
+          justifyContent: "flex-end",
+          alignSelf: "center",
+        }}
+      >
+        <Text style={Styles.screenSecondNumber}>
+          {secondNumber}
+          <Text style={{ color: "purple", fontSize: 50, fontWeight: "500" }}>
+            {operator}
+          </Text>
+        </Text>
+        {firstNumberDisplay()}
+      </View>
       <View style={Styles.row}>
         <Button title="C" isGray onPress={clear} />
         <Button title="+/-" isGray onPress={() => handleOperator("+/-")} />
@@ -96,6 +152,6 @@ export default function Keyboard() {
         />
         <Button title="=" isBlue onPress={() => getResult()} />
       </View>
-    </>
+    </View>
   );
 }

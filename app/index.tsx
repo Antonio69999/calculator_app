@@ -4,13 +4,13 @@ import { ThemeContext } from "../src/context/ThemeContext";
 import { StatusBar } from "expo-status-bar";
 import { Colours } from "@/src/styles/Colours";
 import Keyboard from "../src/components/Keyboard";
-// import Button from "@/src/components/Button";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const [theme, setTheme] = useState("light");
   return (
     <ThemeContext.Provider value={theme}>
-      <View
+      <SafeAreaView
         style={
           theme === "light"
             ? styles.container
@@ -23,7 +23,7 @@ export default function Index() {
           onChange={() => setTheme(theme === "light" ? "dark" : "light")}
         ></Switch>
         <Keyboard></Keyboard>
-      </View>
+      </SafeAreaView>
     </ThemeContext.Provider>
   );
 }
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colours.light,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
 });
