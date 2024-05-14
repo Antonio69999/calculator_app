@@ -14,12 +14,18 @@ export default function Keyboard() {
 
   const handleNumber = (buttonValue: string) => {
     if (operator) {
-      if (secondNumber.length < 10) {
+      if (
+        secondNumber.length < 10 &&
+        !(buttonValue === "." && secondNumber.includes("."))
+      ) {
         setSecondNumber(secondNumber + buttonValue);
         setDisplay(secondNumber + buttonValue);
       }
     } else {
-      if (firstNumber.length < 10) {
+      if (
+        firstNumber.length < 10 &&
+        !(buttonValue === "." && firstNumber.includes("."))
+      ) {
         setFirstNumber(firstNumber + buttonValue);
         setDisplay(firstNumber + buttonValue);
       }
@@ -55,16 +61,16 @@ export default function Keyboard() {
     let res;
     switch (operator) {
       case "+":
-        res = parseInt(firstNumber) + parseInt(secondNumber);
+        res = parseFloat(firstNumber) + parseFloat(secondNumber);
         break;
       case "-":
-        res = parseInt(firstNumber) - parseInt(secondNumber); 
+        res = parseFloat(firstNumber) - parseFloat(secondNumber);
         break;
       case "*":
-        res = parseInt(firstNumber) * parseInt(secondNumber);
+        res = parseFloat(firstNumber) * parseFloat(secondNumber);
         break;
       case "/":
-        res = parseInt(firstNumber) / parseInt(secondNumber); 
+        res = parseFloat(firstNumber) / parseFloat(secondNumber);
         break;
       default:
         res = 0;
