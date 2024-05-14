@@ -10,26 +10,37 @@ export default function Keyboard() {
   const [secondNumber, setSecondNumber] = React.useState("");
   const [operator, setOperator] = React.useState("");
   const [result, setResult] = React.useState<Number | null>(null);
+  const [display, setDisplay] = React.useState("");
 
   const handleNumber = (buttonValue: string) => {
-    if (firstNumber.length < 10) {
-      setFirstNumber(firstNumber + buttonValue);
+    if (operator) {
+      if (secondNumber.length < 10) {
+        setSecondNumber(secondNumber + buttonValue);
+        setDisplay(secondNumber + buttonValue);
+      }
+    } else {
+      if (firstNumber.length < 10) {
+        setFirstNumber(firstNumber + buttonValue);
+        setDisplay(firstNumber + buttonValue);
+      }
     }
   };
 
   const handleOperator = (buttonValue: string) => {
     setOperator(buttonValue);
-    setSecondNumber(firstNumber);
-    setFirstNumber("");
+    setSecondNumber("");
+    setDisplay(firstNumber + buttonValue);
   };
 
   const clear = () => {
-    setFirstNumber("");
+    if (operator === "") {
+      setFirstNumber("");
+      setDisplay("");
+    }
     setSecondNumber("");
     setOperator("");
     setResult(null);
   };
-
   React.useEffect(() => {
     ShakeEventExpo.addListener(() => {
       clear();
@@ -41,25 +52,27 @@ export default function Keyboard() {
   }, []);
 
   const getResult = () => {
+    let res;
     switch (operator) {
       case "+":
-        clear();
-        setResult(parseInt(firstNumber) + parseInt(secondNumber));
+        res = parseInt(firstNumber) + parseInt(secondNumber);
         break;
       case "-":
-        setResult(parseInt(secondNumber) - parseInt(firstNumber));
+        res = parseInt(secondNumber) - parseInt(firstNumber);
         break;
       case "*":
-        setResult(parseInt(firstNumber) * parseInt(secondNumber));
+        res = parseInt(firstNumber) * parseInt(secondNumber);
         break;
       case "/":
-        setResult(parseInt(secondNumber) / parseInt(firstNumber));
+        res = parseInt(secondNumber) / parseInt(firstNumber);
         break;
       default:
-        clear();
-        setResult(0);
+        res = 0;
         break;
     }
+    clear();
+    setFirstNumber(res.toString());
+    setResult(res);
   };
 
   const firstNumberDisplay = () => {
