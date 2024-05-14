@@ -12,6 +12,8 @@ export default function Keyboard() {
   const [result, setResult] = React.useState<Number | null>(null);
   const [display, setDisplay] = React.useState("");
 
+
+  //saisie du premier nombre puis saisie du deuxieme nombre si operateur est selectionné
   const handleNumber = (buttonValue: string) => {
     if (operator) {
       if (
@@ -32,6 +34,7 @@ export default function Keyboard() {
     }
   };
 
+  //selection de l'operateur 
   const handleOperator = (buttonValue: string) => {
     setOperator(buttonValue);
     setSecondNumber("");
