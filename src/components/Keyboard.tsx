@@ -58,13 +58,13 @@ export default function Keyboard() {
         res = parseInt(firstNumber) + parseInt(secondNumber);
         break;
       case "-":
-        res = parseInt(secondNumber) - parseInt(firstNumber);
+        res = parseInt(firstNumber) - parseInt(secondNumber); 
         break;
       case "*":
         res = parseInt(firstNumber) * parseInt(secondNumber);
         break;
       case "/":
-        res = parseInt(secondNumber) / parseInt(firstNumber);
+        res = parseInt(firstNumber) / parseInt(secondNumber); 
         break;
       default:
         res = 0;
